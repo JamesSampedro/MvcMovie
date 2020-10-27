@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Data;
 using MvcMovie.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MvcMovie.Controllers
 {
@@ -41,18 +39,66 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            return View(director);
+            var movies = await _context.Movies.Where(i => !i.DirectorID.HasValue).ToArrayAsync();
+
+            var model = new DirectorViewModel
+            {
+                Director = director,
+                DirectorID = director.ID,
+            };
+
+            model.Movies = new SelectList(
+                movies.Select(i => new SelectListItem
+                {
+                    Text = i.Title,
+                    Value = i.ID.ToString(),
+                }), "Value", "Text");
+
+            return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddMovie(DirectorViewModel model)
+        {
+            if (model.MovieID.HasValue)
+            {
+                var movie = await _context.Movies.FindAsync(model.MovieID);
+                movie.DirectorID = model.DirectorID;
+
+                _context.Movies.Update(movie);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Details), new { id = model.DirectorID });
+        }
+
+ 
+        public async Task<IActionResult> RemoveMovie(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+
+            var directorID = movie.DirectorID;
+
+            movie.DirectorID = null;
+
+            _context.Movies.Update(movie);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = directorID });
+        }
+
+        #region Create
+
         // GET: Directors/Create
-       
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Directors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,6 +112,10 @@ namespace MvcMovie.Controllers
             }
             return View(director);
         }
+
+        #endregion Create
+
+        #region Edit
 
         // GET: Directors/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -84,7 +134,7 @@ namespace MvcMovie.Controllers
         }
 
         // POST: Directors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,6 +168,10 @@ namespace MvcMovie.Controllers
             return View(director);
         }
 
+        #endregion Edit
+
+        #region Delete
+
         // GET: Directors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -146,6 +200,8 @@ namespace MvcMovie.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        #endregion Delete
 
         private bool DirectorExists(int id)
         {

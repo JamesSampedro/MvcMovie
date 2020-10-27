@@ -1,0 +1,19 @@
+﻿@model IEnumerable<MvcMovie.Models.Movie>
+
+
+<table class="table table-b">
+  
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @($"{item.Title} ({item.ReleaseDate.ToString("MMM-dd-yyyy")})")
+                </td>
+           
+                <td class="text-right">
+                    <a class="btn btn-sm btn-danger" asp-action="RemoveMovie" asp-route-id="@item.ID">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
