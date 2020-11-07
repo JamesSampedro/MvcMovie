@@ -12,7 +12,7 @@
                 <h5 class="card-subtitle mb-3 muted"><strong>@Model.Director.Name</strong>'s Movies</h5>
                 @if (Model.Director.Movies.Any())
                 {
-                    @Html.Partial("_Movies.cshtml", Model.Director.Movies);
+                    @(await Html.PartialAsync("_Movies.cshtml", Model.Director.Movies));
                 }
                 else
                 {

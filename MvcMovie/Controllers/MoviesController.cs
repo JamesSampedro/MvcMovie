@@ -116,7 +116,15 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            return View(movie);
+            return View(new MovieEditViewModel { 
+                DirectorID = movie.DirectorID,
+                Genre = movie.Genre,
+                ID =movie.ID,
+                Price = movie.Price,
+                Rating = movie.Rating,
+                ReleaseDate = movie.ReleaseDate,
+                Title = movie.Title,
+            });
         }
 
     
@@ -126,25 +134,72 @@ namespace MvcMovie.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price,Rating,DirectorID")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ReleaseDate,Genre,Price,Rating,DirectorID,NewDirector")] MovieEditViewModel model)
         {
 
            
-            if (id != movie.ID)
+            if (id != model.ID)
             {
                 return NotFound();
             }
+
+            ViewData["Directors"] = CreateDirectorDropdown(); ;
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var movie = await _context.Movies.FindAsync(model.ID);
+                    if (movie == null) return NotFound();
+
+
+                    if((model.DirectorID == null && model.DirectorID == 0) && model.NewDirector == string.Empty)
+                    {
+                        ModelState.AddModelError("ID_Or_New","ID or NewDirector cannot be both null");
+
+                        return View(model);
+                    }
+
+                    if(model.DirectorID == null || model.DirectorID == 0)
+                    {
+                        if (string.IsNullOrEmpty(model.NewDirector))
+                        {
+                            return View(model);
+                        }
+                        else
+                        {
+                            var dir = new Director
+                            {
+                                Name = model.NewDirector
+                            };
+
+
+                            _context.Directors.Add(dir);
+                            await _context.SaveChangesAsync();
+
+                            movie.DirectorID = dir.ID;
+
+                        }
+                    }
+                    else
+                    {
+                        movie.DirectorID = model.DirectorID;
+                    }
+
+                    movie.Title = model.Title;
+                    movie.Genre = model.Genre;
+                    movie.Price = model.Price;
+                    movie.Rating = model.Rating;
+                    movie.ReleaseDate = model.ReleaseDate;
+
+
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieExists(movie.ID))
+                    if (!MovieExists(model.ID))
                     {
                         return NotFound();
                     }
@@ -156,9 +211,8 @@ namespace MvcMovie.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Directors"] = CreateDirectorDropdown(); ;
 
-            return View(movie);
+            return View(model);
         }
 
 

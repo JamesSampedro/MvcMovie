@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcMovie.Models
 {
-    public class Movie
+    public class MovieEditViewModel
     {
         public int ID { get; set; }
 
@@ -17,8 +17,6 @@ namespace MvcMovie.Models
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
-        [Required]
-        [StringLength(30)]
         public string Genre { get; set; }
 
         [Range(1, 100)]
@@ -31,9 +29,10 @@ namespace MvcMovie.Models
         [Required]
         public string Rating { get; set; }
 
+        [DisplayName("Movie Director - New")]
+        public string NewDirector { get; set; }
+
         [DisplayName("Movie Director")]
         public int? DirectorID { get; set; }
-
-        public Director Director { get; set; }
     }
 }
