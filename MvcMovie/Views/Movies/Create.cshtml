@@ -1,10 +1,23 @@
 ﻿@model MvcMovie.Models.Movie
 
-@{
-    ViewData["Title"] = "Create";
-}
+@{ ViewData["Title"] = "Create"; }
+<style>
 
+    .row {
+        background-color: whitesmoke;
+        border-radius: 20px;
+        color: black;
+    }
 
+    .form-group {
+        position: relative;
+        left: 380px;
+    }
+</style>
+<h1>Create</h1>
+
+<h4>Movie</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -42,6 +55,7 @@
 </div>
 
 <div>
+    <br />
     <a asp-action="Index">Back to List</a>
 </div>
 

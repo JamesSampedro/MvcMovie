@@ -1,10 +1,23 @@
-﻿@model MovieEditViewModel
+﻿@model MvcMovie.Models.Movie
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@{ ViewData["Title"] = "Edit"; }
+<style>
 
+    .row {
+        background-color: whitesmoke;
+        border-radius: 20px;
+        color: black;
+    }
 
+    .form-group {
+        position: relative;
+        left: 380px;
+    }
+</style>
+<h1>Edit</h1>
+
+<h4>Movie</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -35,21 +48,14 @@
                 <input asp-for="Rating" class="form-control" />
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
-            <div class="form-group dir">
+            <div class="form-group">
                 <label asp-for="DirectorID" class="control-label"></label>
-                <select class="form-control" asp-for="DirectorID" id="dir" asp-items="@ViewBag.Directors">
+                <select class="form-control" asp-for="DirectorID" asp-items="@ViewBag.Directors" id="dropdown">
+                    <option value="" selected>Choose here</option>
                 </select>
-            </div>
-            <div class="form-group newdir">
-                <label asp-for="NewDirector" class="control-label"></label>
-                <input asp-for="NewDirector" class="form-control" id="newdir" />
-                <span asp-validation-for="NewDirector" class="text-danger"></span>
-            </div>
-            <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
-                    New Director
-                </label>
+                <input type="text" name="textbox" id="textbox" class="form-control inactive" placeholder="New Director" />
+                <input type="checkbox" name="checkbox" id="checkbox" onclick="toggleCheck()" />
+                <label for="checkbox">Add a New Director</label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -59,29 +65,10 @@
 </div>
 
 <div>
+    <br />
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-
-        $(document).ready(function () {
-            $(".newdir").hide();
-            $("#defaultCheck1").change( function() {
-                if ($(this).is(':checked')) {
-                    console.log('checked');
-                    $(".newdir").show();
-                    $(".dir").hide();
-                    $("#dir").val(0);
-                } else {
-                    $(".newdir").hide();
-                    $(".dir").show();
-                    $("#newdir").val("");
-                }
-            })
-        })
-    </script>
 }
-

@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MvcMovie.Models
 {
@@ -13,7 +15,7 @@ namespace MvcMovie.Models
         [Required]
         public string Title { get; set; }
 
-        [Display(Name = "Release Date")]
+        [Display(Name ="Release Date")]
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
@@ -21,9 +23,9 @@ namespace MvcMovie.Models
         [StringLength(30)]
         public string Genre { get; set; }
 
-        [Range(1, 100)]
+        [Range(1,100)]
         [DataType(DataType.Currency)]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName ="decimal(18,2)")]
         public decimal Price { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-]*$")]
@@ -33,7 +35,7 @@ namespace MvcMovie.Models
 
         [DisplayName("Movie Director")]
         public int? DirectorID { get; set; }
-
         public Director Director { get; set; }
+       
     }
 }

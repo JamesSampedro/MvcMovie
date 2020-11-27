@@ -11,7 +11,7 @@ namespace MvcMovie.Migrations
 {
     [DbContext(typeof(MvcMovieContext))]
     [Migration("20201016084403_add-director")]
-    partial class adddirector
+    partial class checkTextbox
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

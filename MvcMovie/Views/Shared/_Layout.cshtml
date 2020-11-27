@@ -6,70 +6,135 @@
     <title>@ViewData["Title"] - Movie App</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/checkTextbox.css" rel="stylesheet" />
+    <link href="~/Home/Index.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Architects+Daughter&family=Turret+Road:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Turret+Road:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        .cinema {
+            min-width: 150px;
+            min-height: 170px;
+            position: relative;
+            top: -10px;
+            background-image: url(/css/cinema.png);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            letter-spacing: 3px;
+            font-family: 'Architects Daughter', cursive;
+            text-transform: uppercase;
+            font-size: 15px;
+        }
+
+        .home {
+            color: #ffffff;
+            text-align: center;
+            background: #740202;
+        }
+
+        .gname {
+            font-family: 'Amatic SC', cursive;
+            font-size: 25px;
+        }
+        /*animation sa name*/
+        .navbar .container a:hover {
+            color: yellow;
+            transition: .5s;
+        }
+
+        .navbar-brand {
+            position: relative;
+            right: 140px;
+            padding-top: 5px;
+        }
+
+        .popcornI {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            background-size: 60px;
+            background-image: url(/css/popcorn.gif);
+            background-repeat: no-repeat;
+            background-position: left;
+        }
+
+
+        .display-4 {
+            color: white;
+            position: relative;
+            top: 20px;
+        }
+
+        .jumbotron {
+            background: white;
+            color: black;
+            bottom: 100px;
+            border-radius: 130px;
+        }
+
+        footer {
+            /*top: 716px;*/
+            min-height: 5%;
+        }
+
+        .fbottom {
+            background: #f1c055;
+            text-align: center;
+            color: black;
+            width: 100%;
+            font-size: 13px;
+            height: 50px;
+        }
+    </style>
 </head>
-<body>
+<body class="home">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie App</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Index">Directors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movies</a>
-                        </li>
-                    </ul>
+                <div class="popcornI">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie App</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Index">Directors</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movies</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-
-       
         <main role="main" class="pb-3">
-            <nav aria-label="breadcrumb">
-                @if (ViewContext.RouteData.Values["controller"].ToString().ToLower() != "home")
-                {
-                    <ol class="breadcrumb">
-
-                        <li class="breadcrumb-item">
-                            @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-                        </li>
-                        <li class="breadcrumb-item active">
-                            @Html.ActionLink(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["action"].ToString())
-                        </li>
-                    </ol>
-                }
-                else
-                {
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            @Html.ActionLink(ViewContext.RouteData.Values["controller"].ToString(), "Index")
-                        </li>
-                    </ol>
-                }
-            </nav>
-                @RenderBody()
+            @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="fbottom">
+
             &copy; 2020 - Movie App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/checkTextbox.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

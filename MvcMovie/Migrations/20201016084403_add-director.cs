@@ -2,7 +2,7 @@
 
 namespace MvcMovie.Migrations
 {
-    public partial class adddirector : Migration
+    public partial class checkTextbox : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
